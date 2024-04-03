@@ -16,64 +16,67 @@ class MySqFLiteDatabase extends CRUD {
   final String _salesColumnId = "sales_id";
   final String _salesColumnProductName = "sales_product_name";
   final String _salesColumnUserName = "sales_user_name";
+  Database? _db;
 
-  initDatabase() async {
+  Future<Database> initDatabase() async {
     String databasesPath = await sqFLiteDatabase.getDatabasesPath();
     String managementDatabaseName = "management.db";
     String realDatabasePath = join(databasesPath, managementDatabaseName);
     int versionDataBase = 1;
-    sqFLiteDatabase.openDatabase(
+    _db ??= await sqFLiteDatabase.openDatabase(
       realDatabasePath,
       onCreate: _onCreate,
       version: versionDataBase,
     );
+    return _db!;
   }
 
   _onCreate(Database db, int version) async {
+    await db.execute("CREATE TABLE IF NOT EXCIT $_userTable "
+        "( $_userColumnID INTEGER PRIMARY KEY AUTOINCREMENT ,"
+        "  $_userColumnUsername TEXT  );");
     await db.execute(
-        "CREATE TABLE $_userTable "
-            "( $_userColumnID INTEGER ,"
-            "  $_userColumnUsername TEXT );");
+      "CREATE TABLE IF NOT EXCIT $_productTable"
+      " ( $_productColumnId INTEGER PRIMARY KEY AUTOINCREMENT,"
+      " $_productColumnName TEXT ,"
+      " $_productColumnPrice REAL ,"
+      " $_productColumnCount INTEGER );",
+    );
     await db.execute(
-      "CREATE TABLE $_productTable"
-          " ( $_productColumnId INTEGER ,"
-          " $_productColumnName TEXT ,"
-          " $_productColumnPrice REAL ,"
-          " $_productColumnCount INTEGER );",
-    );  await db.execute(
-      "CREATE TABLE $_productTable"
-          " ( $_productColumnId INTEGER ,"
-          " $_productColumnName TEXT ,"
-          " $_productColumnPrice REAL ,"
-          " $_productColumnCount INTEGER );",
-    ); await db.execute(
-      "CREATE TABLE $_salesTable"
-          " ( $_salesColumnId INTEGER ,"
-          " $_salesColumnProductName TEXT ,"
-          " $_salesColumnUserName TEXT  );",
+      "CREATE TABLE IF NOT EXCIT $_salesTable"
+      " ( $_salesColumnId INTEGER PRIMARY KEY AUTOINCREMENT,"
+      " $_salesColumnProductName TEXT ,"
+      " $_salesColumnUserName TEXT  );",
     );
   }
 
   @override
-  int delete() {
+  Future<int> delete() {
     // TODO: implement delete
     throw UnimplementedError();
   }
 
   @override
-  int insert() {
+  Future<int> insert() async {
     // TODO: implement insert
-    throw UnimplementedError();
+    await initDatabase();
+    int inserted = await _db!.insert(
+      _userTable,
+      {
+        _userColumnUsername: "ahmed",
+      },
+    );
+    return inserted;
   }
 
   @override
-  int select() {
+  Future<int> select() {
     // TODO: implement select
     throw UnimplementedError();
   }
 
   @override
-  int update() {
+  Future<int> update() {
     // TODO: implement update
     throw UnimplementedError();
   }
