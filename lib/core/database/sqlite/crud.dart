@@ -8,5 +8,5 @@ abstract class CRUD {
 
   Future<bool> delete();
 
-  Future<bool> select();
+  Future<List<Map<String, Object?>>> select();
 }

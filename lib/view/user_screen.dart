@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sqflite_department/controller/user_controller.dart';
 import 'package:sqflite_department/core/database/sqlite/my_sq_f_lite_databse.dart';
 
 class UserScreen extends StatefulWidget {
@@ -10,6 +11,14 @@ class UserScreen extends StatefulWidget {
 
 class _UserScreenState extends State<UserScreen> {
   TextEditingController _usernameController = TextEditingController();
+  late UserController _userController;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _userController = UserController();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,11 +35,17 @@ class _UserScreenState extends State<UserScreen> {
               border: OutlineInputBorder(),
             ),
           ),
-          ElevatedButton(onPressed: () async{
-            MySqFLiteDatabase db=MySqFLiteDatabase();
-            bool inserted=await db.insertToUserTable(userName: _usernameController.text);
-            print(inserted);
-          }, child: const Text("inserted")),
+          ElevatedButton(onPressed: () async {}, child: const Text("inserted")),
+          Expanded(
+            child: ListView.separated(
+                itemBuilder: (context, index) => Row(
+                      children: [Text("1 name")],
+                    ),
+                separatorBuilder: (context, index) => SizedBox(
+                      height: 10,
+                    ),
+                itemCount: 3),
+          )
         ],
       ),
     ));
