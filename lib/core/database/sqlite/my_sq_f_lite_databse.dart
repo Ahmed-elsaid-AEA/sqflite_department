@@ -90,10 +90,10 @@ class MySqFLiteDatabase extends CRUD {
     return inserted > 0 ? true : false;
   }
 
-  @override
   Future<List<Map<String, Object?>>> selectUserTableData() async {
     return select(tableName: _userTable);
-  }  @override
+  }
+
   Future<List<Map<String, Object?>>> selectProductsTableData() async {
     return select(tableName: _productTable);
   }
@@ -109,15 +109,21 @@ class MySqFLiteDatabase extends CRUD {
   }
 
   @override
-  Future<bool> update({required String userName,required int id}) async {
+  Future<bool> updateUserTable(
+      {required String userName, required int id}) async {
+    return update(
+        tableName: _userTable,
+        values: {_userColumnUsername: userName},
+        where: "$_userColumnID==$id");
+  }
+
+  @override
+  Future<bool> update(
+      {required String tableName,
+      required Map<String, Object?> values,
+      required String where}) async {
     await _initDatabase();
-    int deleted = await _db!.update(
-      _userTable,
-      {
-        _userColumnUsername:userName
-      },
-      where:"$_userColumnID==$id"
-    );
+    int deleted = await _db!.update(tableName, values, where: where);
     await _db!.close();
     return deleted > 0 ? true : false;
   }
