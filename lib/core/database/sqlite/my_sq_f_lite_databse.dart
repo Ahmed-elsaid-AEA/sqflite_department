@@ -109,11 +109,14 @@ class MySqFLiteDatabase extends CRUD {
   }
 
   @override
-  Future<bool> update() async {
+  Future<bool> update({required String userName,required int id}) async {
     await _initDatabase();
     int deleted = await _db!.update(
       _userTable,
-      {},
+      {
+        _userColumnUsername:userName
+      },
+      where:"$_userColumnID==$id"
     );
     await _db!.close();
     return deleted > 0 ? true : false;

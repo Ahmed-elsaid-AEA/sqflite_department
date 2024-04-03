@@ -9,12 +9,18 @@ class UserController {
 
   void insertUser({required String userName}) async {
     MySqFLiteDatabase db = MySqFLiteDatabase();
-    bool inserted = await db.insertToUserTable(userName: userName);
+    await db.insertToUserTable(userName: userName);
     select();
   }
 
   void select() async {
     MySqFLiteDatabase db = MySqFLiteDatabase();
     dataUser = await db.selectUserTableData();
+  }
+
+  void updateUser({required String userName,required int id}) async {
+    MySqFLiteDatabase db = MySqFLiteDatabase();
+    await db.update(userName: userName,id: id);
+    select();
   }
 }

@@ -4,7 +4,7 @@ abstract class CRUD {
     required Map<String, Object?> values,
   });
 
-  Future<bool> update();
+  Future<bool> update({required String userName,required int id});
 
   Future<bool> delete();
 

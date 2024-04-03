@@ -11,6 +11,7 @@ class UserScreen extends StatefulWidget {
 
 class _UserScreenState extends State<UserScreen> {
   TextEditingController _usernameController = TextEditingController();
+  TextEditingController _usernameEditController = TextEditingController();
   late UserController _userController;
 
   @override
@@ -35,21 +36,69 @@ class _UserScreenState extends State<UserScreen> {
               border: OutlineInputBorder(),
             ),
           ),
-          ElevatedButton(onPressed: () async {
-            _userController.insertUser(userName: _usernameController.text);
+          ElevatedButton(
+              onPressed: () async {
+                _userController.insertUser(userName: _usernameController.text);
 
-            setState(() {
-
-            });
-          }, child: const Text("inserted")),
+                setState(() {});
+              },
+              child: const Text("inserted")),
           Expanded(
             child: ListView.separated(
-                itemBuilder: (context, index) => Row(
-                      children: [
-                        Text("id : ${_userController.dataUser[index]['user_id']}   "),
+                itemBuilder: (context, index) => InkWell(
+                      onTap: () {
+                        int id = _userController.dataUser[index]['user_id'];
+                        _usernameEditController.text =
+                            _userController.dataUser[index]['username'];
+                        showModalBottomSheet(
+                          context: context,
+                          builder: (context) => Container(
+                            padding: EdgeInsets.all(20),
+                            child: Column(
+                              children: [
+                                TextField(
+                                  controller: _usernameEditController,
+                                  decoration: const InputDecoration(
+                                    label: Text("username"),
+                                    border: OutlineInputBorder(),
+                                  ),
+                                ),
+                                Row(
+                                  children: [
+                                    ElevatedButton(
+                                        onPressed: () async {
+                                          _userController.updateUser(
+                                              userName:
+                                                  _usernameEditController.text,
+                                              id: id);
+                                          Navigator.of(context).pop();
+                                          setState(() {});
+                                        },
+                                        child: const Text("update")),
+                                    ElevatedButton(
+                                        onPressed: () async {
+                                          _userController.insertUser(
+                                              userName:
+                                                  _usernameController.text);
 
-                        Text("name : ${_userController.dataUser[index]['username']}"),
-                      ],
+                                          setState(() {});
+                                        },
+                                        child: const Text("delete")),
+                                  ],
+                                )
+                              ],
+                            ),
+                          ),
+                        );
+                      },
+                      child: Row(
+                        children: [
+                          Text(
+                              "id : ${_userController.dataUser[index]['user_id']}   "),
+                          Text(
+                              "name : ${_userController.dataUser[index]['username']}"),
+                        ],
+                      ),
                     ),
                 separatorBuilder: (context, index) => SizedBox(
                       height: 10,
