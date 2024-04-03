@@ -35,16 +35,26 @@ class _UserScreenState extends State<UserScreen> {
               border: OutlineInputBorder(),
             ),
           ),
-          ElevatedButton(onPressed: () async {}, child: const Text("inserted")),
+          ElevatedButton(onPressed: () async {
+            _userController.insertUser(userName: _usernameController.text);
+
+            setState(() {
+
+            });
+          }, child: const Text("inserted")),
           Expanded(
             child: ListView.separated(
                 itemBuilder: (context, index) => Row(
-                      children: [Text("1 name")],
+                      children: [
+                        Text("id : ${_userController.dataUser[index]['user_id']}   "),
+
+                        Text("name : ${_userController.dataUser[index]['username']}"),
+                      ],
                     ),
                 separatorBuilder: (context, index) => SizedBox(
                       height: 10,
                     ),
-                itemCount: 3),
+                itemCount: _userController.dataUser.length),
           )
         ],
       ),

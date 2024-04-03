@@ -1,19 +1,20 @@
 import 'package:sqflite_department/core/database/sqlite/my_sq_f_lite_databse.dart';
 
 class UserController {
-  UserController(){
+  List dataUser = [];
+
+  UserController() {
     select();
   }
+
   void insertUser({required String userName}) async {
     MySqFLiteDatabase db = MySqFLiteDatabase();
     bool inserted = await db.insertToUserTable(userName: userName);
-    print(inserted);
+    select();
   }
 
-  Future<List<Map<String, Object?>>> select() async {
+  void select() async {
     MySqFLiteDatabase db = MySqFLiteDatabase();
-    List<Map<String, Object?>> data = await db.select();
-    print(data);
-    return data;
+    dataUser = await db.select();
   }
 }
