@@ -91,9 +91,19 @@ class MySqFLiteDatabase extends CRUD {
   }
 
   @override
-  Future<List<Map<String, Object?>>> select() async {
+  Future<List<Map<String, Object?>>> selectUserTableData() async {
+    return select(tableName: _userTable);
+  }  @override
+  Future<List<Map<String, Object?>>> selectProductsTableData() async {
+    return select(tableName: _productTable);
+  }
+
+  @override
+  Future<List<Map<String, Object?>>> select({
+    required String tableName,
+  }) async {
     await _initDatabase();
-    List<Map<String, Object?>> data = await _db!.query(_userTable);
+    List<Map<String, Object?>> data = await _db!.query(tableName);
     await _db!.close();
     return data;
   }

@@ -8,5 +8,7 @@ abstract class CRUD {
 
   Future<bool> delete();
 
-  Future<List<Map<String, Object?>>> select();
+  Future<List<Map<String, Object?>>> select({
+    required String tableName,
+  });
 }
