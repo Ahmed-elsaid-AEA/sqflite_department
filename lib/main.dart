@@ -4,8 +4,6 @@ import 'package:sqflite_department/core/database/sqlite/my_sq_f_lite_databse.dar
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  MySqFLiteDatabase db=MySqFLiteDatabase();
-  bool inserted=await db.delete();
-  print(inserted);
+
   runApp(const MyApp());
 }

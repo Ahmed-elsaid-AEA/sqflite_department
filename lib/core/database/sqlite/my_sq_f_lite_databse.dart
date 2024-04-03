@@ -61,16 +61,31 @@ class MySqFLiteDatabase extends CRUD {
     return deleted > 0 ? true : false;
   }
 
-  @override
-  Future<bool> insert() async {
-    // TODO: implement insert
-    await _initDatabase();
-    int inserted = await _db!.insert(
-      _userTable,
-      {
-        _userColumnUsername: "ahmed",
+  Future<bool> insertToUserTable({required String userName}) async {
+    return insert(
+      tableName: _userTable,
+      values: {_userColumnUsername: userName},
+    );
+  }
+
+  Future<bool> insertToProductTable(
+      {required String name, required double price, required int count}) async {
+    return insert(
+      tableName: _productTable,
+      values: {
+        _productColumnName: name,
+        _productColumnPrice: price,
+        _productColumnCount: count,
       },
     );
+  }
+
+  @override
+  Future<bool> insert(
+      {required String tableName, required Map<String, Object?> values}) async {
+    // TODO: implement insert
+    await _initDatabase();
+    int inserted = await _db!.insert(tableName, values);
     await _db!.close();
     return inserted > 0 ? true : false;
   }
@@ -86,9 +101,7 @@ class MySqFLiteDatabase extends CRUD {
     await _initDatabase();
     int deleted = await _db!.update(
       _userTable,
-      {
-
-      },
+      {},
     );
     await _db!.close();
     return deleted > 0 ? true : false;
