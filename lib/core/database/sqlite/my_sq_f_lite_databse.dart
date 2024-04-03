@@ -9,7 +9,7 @@ class MySqFLiteDatabase extends CRUD {
   final String _userColumnUsername = "username";
   final String _productTable = "product";
   final String _productColumnId = "product_id";
-  final String _productColumnName = "product_id";
+  final String _productColumnName = "product_name";
   final String _productColumnPrice = "product_price";
   final String _productColumnCount = "product_count";
   final String _salesTable = "sales";
@@ -18,7 +18,7 @@ class MySqFLiteDatabase extends CRUD {
   final String _salesColumnUserName = "sales_user_name";
   Database? _db;
 
-  Future<Database> initDatabase() async {
+  Future<Database> _initDatabase() async {
     String databasesPath = await sqFLiteDatabase.getDatabasesPath();
     String managementDatabaseName = "management.db";
     String realDatabasePath = join(databasesPath, managementDatabaseName);
@@ -32,18 +32,18 @@ class MySqFLiteDatabase extends CRUD {
   }
 
   _onCreate(Database db, int version) async {
-    await db.execute("CREATE TABLE IF NOT EXCIT $_userTable "
+    await db.execute("CREATE TABLE IF NOT EXISTS $_userTable "
         "( $_userColumnID INTEGER PRIMARY KEY AUTOINCREMENT ,"
         "  $_userColumnUsername TEXT  );");
     await db.execute(
-      "CREATE TABLE IF NOT EXCIT $_productTable"
+      "CREATE TABLE IF NOT EXISTS $_productTable"
       " ( $_productColumnId INTEGER PRIMARY KEY AUTOINCREMENT,"
       " $_productColumnName TEXT ,"
       " $_productColumnPrice REAL ,"
       " $_productColumnCount INTEGER );",
     );
     await db.execute(
-      "CREATE TABLE IF NOT EXCIT $_salesTable"
+      "CREATE TABLE IF NOT EXISTS $_salesTable"
       " ( $_salesColumnId INTEGER PRIMARY KEY AUTOINCREMENT,"
       " $_salesColumnProductName TEXT ,"
       " $_salesColumnUserName TEXT  );",
@@ -51,34 +51,47 @@ class MySqFLiteDatabase extends CRUD {
   }
 
   @override
-  Future<int> delete() {
-    // TODO: implement delete
-    throw UnimplementedError();
+  Future<bool> delete() async {
+    await _initDatabase();
+    int deleted = await _db!.delete(
+      _userTable,
+      where: "$_userColumnID==2",
+    );
+    await _db!.close();
+    return deleted > 0 ? true : false;
   }
 
   @override
-  Future<int> insert() async {
+  Future<bool> insert() async {
     // TODO: implement insert
-    await initDatabase();
+    await _initDatabase();
     int inserted = await _db!.insert(
       _userTable,
       {
         _userColumnUsername: "ahmed",
       },
     );
-    return inserted;
+    await _db!.close();
+    return inserted > 0 ? true : false;
   }
 
   @override
-  Future<int> select() {
+  Future<bool> select() {
     // TODO: implement select
     throw UnimplementedError();
   }
 
   @override
-  Future<int> update() {
-    // TODO: implement update
-    throw UnimplementedError();
+  Future<bool> update() async {
+    await _initDatabase();
+    int deleted = await _db!.update(
+      _userTable,
+      {
+
+      },
+    );
+    await _db!.close();
+    return deleted > 0 ? true : false;
   }
 }
 // users // products // sales
