@@ -43,12 +43,6 @@ class _UserScreenState extends State<UserScreen> {
                 setState(() {});
               },
               child: const Text("inserted")),
-          ElevatedButton(
-              onPressed: () async {
-                _userController.select();
-                setState(() {});
-              },
-              child: const Text("refresh")),
           Expanded(
             child: ListView.separated(
                 itemBuilder: (context, index) => InkWell(
@@ -83,9 +77,10 @@ class _UserScreenState extends State<UserScreen> {
                                         child: const Text("update")),
                                     ElevatedButton(
                                         onPressed: () async {
-                                          _userController.deleteUser(id: id);
+                                          _userController.insertUser(
+                                              userName:
+                                                  _usernameController.text);
 
-                                          Navigator.pop(context);
                                           setState(() {});
                                         },
                                         child: const Text("delete")),

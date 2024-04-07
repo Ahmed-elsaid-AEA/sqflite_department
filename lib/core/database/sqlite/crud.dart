@@ -9,7 +9,7 @@ abstract class CRUD {
       required Map<String, Object?> values,
       required String where});
 
-  Future<bool> delete({required String tableName, required String where});
+  Future<bool> delete();
 
   Future<List<Map<String, Object?>>> select({
     required String tableName,

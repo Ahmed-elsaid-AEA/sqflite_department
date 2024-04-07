@@ -22,9 +22,5 @@ class UserController {
     MySqFLiteDatabase db = MySqFLiteDatabase();
     await db.updateUserTable(userName: userName,id: id);
     select();
-  }  void deleteUser({required int id}) async {
-    MySqFLiteDatabase db = MySqFLiteDatabase();
-    await db.deleteUserTable(id: id);d
-    select();
   }
 }
