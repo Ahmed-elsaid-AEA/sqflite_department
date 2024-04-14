@@ -103,16 +103,52 @@ class _ProductScreenState extends State<ProductScreen> {
                                 ['product_id'];
                             _productEditNameController.text = _productController
                                 .dataProduct[index]['product_name'];
-                            _productEditPriceController.text = _productController
-                                .dataProduct[index]['product_price'].toString();
-                            _productEditCountController.text = _productController
-                                .dataProduct[index]['product_count'].toString();
+                            _productEditPriceController.text =
+                                _productController.dataProduct[index]
+                                        ['product_price']
+                                    .toString();
+                            _productEditCountController.text =
+                                _productController.dataProduct[index]
+                                        ['product_count']
+                                    .toString();
                             showModalBottomSheet(
                               context: context,
                               builder: (context) => Container(
                                 padding: const EdgeInsets.all(20),
                                 child: Column(
                                   children: [
+                                    Row(
+                                      children: [
+                                        ElevatedButton(
+                                            onPressed: () async {
+                                              _productController.updateProduct(
+                                                  productName:
+                                                      _productEditNameController
+                                                          .text,
+                                                  productPrice: double.parse(
+                                                      _productEditPriceController
+                                                          .text),
+                                                  productCount: int.parse(
+                                                      _productEditCountController
+                                                          .text),
+                                                  id: id);
+                                              Navigator.of(context).pop();
+                                              setState(() {});
+                                            },
+                                            child: const Text("update")),
+                                        ElevatedButton(
+                                            onPressed: () async {
+                                              // _productController.deleteUser(
+                                              //     id: id);
+                                              Navigator.of(context).pop();
+                                              setState(() {});
+                                            },
+                                            child: const Text("delete")),
+                                      ],
+                                    ),
+                                    const SizedBox(
+                                      height: 20,
+                                    ),
                                     TextField(
                                       controller: _productEditNameController,
                                       decoration: const InputDecoration(
@@ -142,29 +178,6 @@ class _ProductScreenState extends State<ProductScreen> {
                                         border: OutlineInputBorder(),
                                       ),
                                     ),
-                                    Row(
-                                      children: [
-                                        ElevatedButton(
-                                            onPressed: () async {
-                                              // _productController.updateUser(
-                                              //     userName:
-                                              //         _productEditController
-                                              //             .text,
-                                              //     id: id);
-                                              Navigator.of(context).pop();
-                                              setState(() {});
-                                            },
-                                            child: const Text("update")),
-                                        ElevatedButton(
-                                            onPressed: () async {
-                                              // _productController.deleteUser(
-                                              //     id: id);
-                                              Navigator.of(context).pop();
-                                              setState(() {});
-                                            },
-                                            child: const Text("delete")),
-                                      ],
-                                    )
                                   ],
                                 ),
                               ),

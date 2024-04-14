@@ -10,8 +10,9 @@ class ProductController {
   void insertProduct(
       {required String name, required double price, required int count}) async {
     MySqFLiteDatabase db = MySqFLiteDatabase();
-   bool a= await db.insertToProductTable(name: name, price: price, count: count);
-   print(a);
+    bool a =
+        await db.insertToProductTable(name: name, price: price, count: count);
+    print(a);
     select();
   }
 
@@ -20,9 +21,19 @@ class ProductController {
     dataProduct = await db.selectProductsTableData();
   }
 
-  void updateUser({required String userName, required int id}) async {
+  void updateProduct({
+    required String productName,
+    required double productPrice,
+    required int productCount,
+    required int id,
+  }) async {
     MySqFLiteDatabase db = MySqFLiteDatabase();
-    await db.updateUserTable(userName: userName, id: id);
+    await db.updateProductTable(
+      productName: productName,
+      productPrice: productPrice,
+      productCount: productCount,
+      id: id,
+    );
     select();
   }
 
