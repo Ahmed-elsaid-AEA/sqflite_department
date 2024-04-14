@@ -17,7 +17,7 @@ class ProductController {
 
   void select() async {
     MySqFLiteDatabase db = MySqFLiteDatabase();
-    dataProduct = await db.selectUserTableData();
+    dataProduct = await db.selectProductsTableData();
   }
 
   void updateUser({required String userName, required int id}) async {
