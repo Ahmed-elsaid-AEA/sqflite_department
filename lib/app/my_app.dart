@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sqflite_department/view/main_screen.dart';
 import 'package:sqflite_department/view/user_screen.dart';
 
 class MyApp extends StatefulWidget {
@@ -13,7 +14,7 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: UserScreen(),
+      home: MainScreen(),
     );
   }
 }
