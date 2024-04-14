@@ -138,8 +138,8 @@ class _ProductScreenState extends State<ProductScreen> {
                                             child: const Text("update")),
                                         ElevatedButton(
                                             onPressed: () async {
-                                              // _productController.deleteUser(
-                                              //     id: id);
+                                              _productController.deleteProduct(
+                                                  id: id);
                                               Navigator.of(context).pop();
                                               setState(() {});
                                             },
