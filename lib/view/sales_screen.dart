@@ -48,8 +48,10 @@ class _SalesScreenState extends State<SalesScreen> {
                     onChanged: (value) {
                       _salesController.valueButtonUsers =
                           int.parse(value.toString());
-                      setState(() {});
                       print(value);
+                      setState(() {
+
+                      });
                     },
                   ),
                 ],
@@ -61,36 +63,29 @@ class _SalesScreenState extends State<SalesScreen> {
                     width: 100,
                   ),
                   DropdownButton(
-                    onChanged: (value) {
-                      _salesController.valueButtonProducts =
-                          int.parse(value.toString());
-                      setState(() {});
-                    },
                     value: _salesController.valueButtonProducts,
                     items: [
                       for (int i = 0;
                           i < _salesController.dataProducts.length;
                           i++)
                         DropdownMenuItem(
+
                             value: _salesController.dataProducts[i]
                                 ['product_id'],
                             child: Text(
                                 '${_salesController.dataProducts[i]['product_name']} /  ${_salesController.dataProducts[i]['product_price']}'))
                     ],
+                    onChanged: (value) {
+                      _salesController.valueButtonProducts =
+                          int.parse(value.toString());
+                      print(value);
+                      setState(() {
+
+                      });
+                    },
                   ),
                 ],
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                ElevatedButton(onPressed: () {
-                  
-                }, child: Text("add")), SizedBox(width: 20,),ElevatedButton(onPressed: () {
-                  setState(() {
-
-                  });
-                }, child: Text("refresh"))
-              ],)
             ],
           ),
         ),

@@ -6,7 +6,7 @@ class SalesController {
 
   int? valueButtonUsers;
 
-  int? valueButtonProducts;
+  int valueButtonProducts = 0;
 
   SalesController() {
     init();
@@ -15,7 +15,7 @@ class SalesController {
   void init() async {
     await selectUsers();
     valueButtonUsers = dataUser[0]['user_id'];
-   await selectProducts();
+    await selectProducts();
   }
 
   Future<void> selectUsers() async {
