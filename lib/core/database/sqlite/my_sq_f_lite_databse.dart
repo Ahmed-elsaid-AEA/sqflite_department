@@ -25,6 +25,9 @@ class MySqFLiteDatabase extends CRUD {
     int versionDataBase = 41;
     _db ??= await sqFLiteDatabase.openDatabase(
       realDatabasePath,
+      onOpen: (db) async {
+        await db.execute('PRAGMA foreign_keys = ON');
+      },
       onCreate: _onCreate,
       onUpgrade: (db, oldVersion, newVersion) {
         print(db);
@@ -51,7 +54,10 @@ class MySqFLiteDatabase extends CRUD {
       "CREATE TABLE IF NOT EXISTS $_salesTable"
       " ( $_salesColumnId INTEGER PRIMARY KEY AUTOINCREMENT,"
       " $_salesColumnProductID INTEGER ,"
-      " $_salesColumnUserID INTEGER  );",
+      " $_salesColumnUserID INTEGER  , "
+      " CONSTRAINT user_sales_relation FOREIGN KEY ($_salesColumnProductID) REFERENCES $_productTable ($_productColumnId) ON DELETE CASCADE ON UPDATE CASCADE ,"
+      " CONSTRAINT product_sales_relation FOREIGN KEY ($_salesColumnUserID) REFERENCES $_userTable ($_userColumnID) ON DELETE CASCADE ON UPDATE CASCADE "
+      " );",
     );
   }
 
@@ -119,10 +125,12 @@ class MySqFLiteDatabase extends CRUD {
     return select(tableName: _userTable);
   }
 
-
-
   Future<List<Map<String, Object?>>> selectProductsTableData() async {
     return select(tableName: _productTable);
+  }
+
+  Future<List<Map<String, Object?>>> sales() async {
+    return select(tableName: _salesTable);
   }
 
   @override

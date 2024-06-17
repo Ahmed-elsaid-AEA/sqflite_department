@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sqflite_department/controller/sales_controller.dart';
+import 'package:sqflite_department/core/database/sqlite/my_sq_f_lite_databse.dart';
 
 class SalesScreen extends StatefulWidget {
   const SalesScreen({super.key});
@@ -95,6 +96,14 @@ class _SalesScreenState extends State<SalesScreen> {
                         setState(() {});
                       },
                       child: Text('add')),
+                  ElevatedButton(
+                      onPressed: () async {
+                        MySqFLiteDatabase db = MySqFLiteDatabase();
+                        var a = await db.sales();
+                        print(a.length);
+                        setState(() {});
+                      },
+                      child: Text('sales')),
                   ElevatedButton(
                       onPressed: () {
                         _salesController.selectSales();
