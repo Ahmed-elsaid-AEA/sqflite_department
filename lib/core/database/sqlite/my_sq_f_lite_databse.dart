@@ -14,18 +14,23 @@ class MySqFLiteDatabase extends CRUD {
   final String _productColumnCount = "product_count";
   final String _salesTable = "sales";
   final String _salesColumnId = "sales_id";
-  final String _salesColumnProductName = "sales_product_name";
-  final String _salesColumnUserName = "sales_user_name";
+  final String _salesColumnProductID = "sales_product_ID";
+  final String _salesColumnUserID = "sales_user_ID";
   Database? _db;
 
   Future<Database> _initDatabase() async {
     String databasesPath = await sqFLiteDatabase.getDatabasesPath();
     String managementDatabaseName = "management.db";
     String realDatabasePath = join(databasesPath, managementDatabaseName);
-    int versionDataBase = 1;
+    int versionDataBase = 41;
     _db ??= await sqFLiteDatabase.openDatabase(
       realDatabasePath,
       onCreate: _onCreate,
+      onUpgrade: (db, oldVersion, newVersion) {
+        print(db);
+        print(oldVersion);
+        print(newVersion);
+      },
       version: versionDataBase,
     );
     return _db!;
@@ -45,8 +50,8 @@ class MySqFLiteDatabase extends CRUD {
     await db.execute(
       "CREATE TABLE IF NOT EXISTS $_salesTable"
       " ( $_salesColumnId INTEGER PRIMARY KEY AUTOINCREMENT,"
-      " $_salesColumnProductName TEXT ,"
-      " $_salesColumnUserName TEXT  );",
+      " $_salesColumnProductID INTEGER ,"
+      " $_salesColumnUserID INTEGER  );",
     );
   }
 
@@ -78,12 +83,12 @@ class MySqFLiteDatabase extends CRUD {
   }
 
   Future<bool> insertToSalesTable(
-      {required String userName, required String productName}) async {
+      {required int userID, required int productID}) async {
     return insert(
       tableName: _salesTable,
       values: {
-        _salesColumnUserName: userName,
-        _salesColumnProductName: productName,
+        _salesColumnUserID: userID,
+        _salesColumnProductID: productID,
       },
     );
   }
@@ -112,7 +117,9 @@ class MySqFLiteDatabase extends CRUD {
 
   Future<List<Map<String, Object?>>> selectUserTableData() async {
     return select(tableName: _userTable);
-  } Future<List<Map<String, Object?>>> selectSalesTableData() async {
+  }
+
+  Future<List<Map<String, Object?>>> selectSalesTableData() async {
     return select(tableName: _salesTable);
   }
 
