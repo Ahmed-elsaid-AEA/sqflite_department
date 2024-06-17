@@ -3,6 +3,7 @@ import 'package:sqflite_department/core/database/sqlite/my_sq_f_lite_databse.dar
 class SalesController {
   List dataUser = [];
   List dataProducts = [];
+  List dataSales = [];
 
   int? valueButtonUsers;
 
@@ -44,12 +45,17 @@ class SalesController {
           userName: userName, productName: productName);
       print(inserted);
     }
-
   }
 
   Future<void> selectProducts() async {
     MySqFLiteDatabase db = MySqFLiteDatabase();
     dataProducts = await db.selectProductsTableData();
     valueButtonProducts = dataProducts[0]['product_id'];
+  }
+
+  Future<void> selectSales() async {
+    MySqFLiteDatabase db = MySqFLiteDatabase();
+    dataSales = await db.selectSalesTableData();
+    print(dataSales);
   }
 }
