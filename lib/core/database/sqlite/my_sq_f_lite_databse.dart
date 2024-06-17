@@ -119,9 +119,7 @@ class MySqFLiteDatabase extends CRUD {
     return select(tableName: _userTable);
   }
 
-  Future<List<Map<String, Object?>>> selectSalesTableData() async {
-    return select(tableName: _salesTable);
-  }
+
 
   Future<List<Map<String, Object?>>> selectProductsTableData() async {
     return select(tableName: _productTable);
@@ -133,6 +131,20 @@ class MySqFLiteDatabase extends CRUD {
   }) async {
     await _initDatabase();
     List<Map<String, Object?>> data = await _db!.query(tableName);
+    await _db!.close();
+    return data;
+  }
+
+  Future<List<Map<String, Object?>>> selectSalesTableData() async {
+    await _initDatabase();
+    List<Map<String, Object?>> data = await _db!.rawQuery(
+        'SELECT $_salesTable.$_salesColumnId,'
+        '$_productTable.$_productColumnName,'
+        '$_userTable.$_userColumnUsername'
+        ' FROM $_salesTable,$_userTable,$_productTable WHERE '
+        '$_salesTable.$_salesColumnUserID =$_userTable.$_userColumnID AND '
+        '$_salesTable.$_salesColumnProductID =$_productTable.$_productColumnId');
+
     await _db!.close();
     return data;
   }

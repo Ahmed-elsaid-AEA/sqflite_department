@@ -151,9 +151,9 @@ class _SalesScreenState extends State<SalesScreen> {
                           child: Row(
                             children: [
                               Text(
-                                  "user : ${_salesController.dataSales[index]['sales_user_ID']}   "),
+                                  "user : ${_salesController.dataSales[index]['username']}   "),
                               Text(
-                                  "product : ${_salesController.dataSales[index]['sales_product_ID']}"),
+                                  "product : ${_salesController.dataSales[index]['product_name']}"),
                             ],
                           ),
                         ),

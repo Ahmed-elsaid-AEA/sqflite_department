@@ -28,7 +28,6 @@ class SalesController {
 
   Future<void> insertToSales() async {
     if (valueButtonUsers != null && valueButtonProducts != null) {
-
       MySqFLiteDatabase db = MySqFLiteDatabase();
       bool inserted = await db.insertToSalesTable(
           userID: valueButtonUsers!, productID: valueButtonProducts!);
